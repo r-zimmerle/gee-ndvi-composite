@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this workflow or the code, please cite it using the concept DOI below."
 title: "Sentinel-2 NDVI median composite with cloud masking"
-version: "1.1.0" # Specific version of this release
+version: "1.1.1" # Specific version of this release
 type: software
 authors:
   - family-names: "Zimmerle"
