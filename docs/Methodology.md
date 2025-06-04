@@ -43,15 +43,28 @@ where \$\rho\$ denotes surface reflectance; Sentinel‑2 bands: **B8 (NIR)**, **
 
 ---
 
-## 4 · Customising the script
+## 4 · Customising the script
 
-| What you want                    | Change in `gee_ndvi_composite.js`                                                                                                         |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| **Different period**             | edit `start`, `end` variables                                                                                                             |
-| **Monthly composites**           | wrap the reducer in a loop ([see Earth Engine docs: iterate()](https://developers.google.com/earth-engine/guides/aggregations#iteration)) |
-| **Looser / stricter cloud mask** | adjust `maxCloudPerc` and/or `probThreshold`                                                                                              |
-| **Alternate ROI**                | draw / import geometry in the GEE Code Editor                                                                                             |
-| **Export CRS / resolution**      | set `crs`, `scale` in the `Export.image.toDrive` call                                                                                     |
+The table below lists the most common tweaks. Open **`code/gee_ndvi_annual_median.js`** and edit the lines indicated.
+
+| What you want                    | Where to change in the script                                                                                                        |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Different period**             | Edit the `start` and `end` variables in the CONFIG block                                                                             |
+| **Monthly composites**           | Wrap the reducer in a loop (see the GEE [iterate() guide](https://developers.google.com/earth-engine/guides/aggregations#iteration)) |
+| **Looser / stricter cloud mask** | Adjust `maxCloudPerc` (scene level) and/or `probThreshold` (pixel level)                                                             |
+| **Alternate ROI**                | Draw or import geometry in the GEE Code Editor and assign it to `roi`                                                                |
+| **Export CRS / resolution**      | Set `crs` (or `userCRS`) and `scale` in the EXPORT block                                                                             |
+
+---
+
+#### Choosing the correct CRS
+
+| Scenario                                               | What to do                                                                                           | Note                                       |
+| ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| **Quick maps / web overlays**                          | Keep the default **EPSG 4326**                                                                       | Small area / distance distortion (a few %) |
+| **Metrics in metres (hectares, buffers, zonal stats)** | Set `userCRS = 'EPSG:UTMxx'` **or** leave `null` and copy the *Suggested CRS* printed in the console | UTM preserves local area/length            |
+
+If the script cannot suggest a UTM (e.g. ROI too small or invalid) it will stay in **4326**. You can always re‑project later in QGIS/ArcGIS if you need precise metrics.
 
 Feel free to fork and adapt—just keep the reference list below so others can track provenance.
 

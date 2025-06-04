@@ -39,6 +39,20 @@ The script previews the mosaic on the map **and** exports a GeoTIFF (10 m, nat
 
 ---
 
+### Advanced settings (optional)
+
+The script exports **by default in EPSG 4326 (WGS-84 lat/lon)**, which is
+universally accepted and perfect for quick-look maps and web overlays.
+If you need **metric-accurate area or distance calculations**, open
+`code/gee_ndvi_annual_median.js` and either:
+
+1. set **`userCRS = 'EPSG:xxxxx'`** to your known UTM zone, or  
+2. leave **`userCRS = null`** and run once — the console will print
+   *“Suggested CRS: EPSG:326/327xx”* for your ROI; copy that code back
+   into `userCRS` before exporting.
+
+---
+
 ## Workflow at a glance
 
 1. **Scene filter**   `CLOUDY_PIXEL_PERCENTAGE < 10` (avoids fogged scenes).

@@ -1,14 +1,14 @@
 /***************************************************
- * gee_ndvi_composite.js  ·  v1.0 (2025‑06‑03)
+ * gee_ndvi_composite.js  ·  v1.0.1 (2025-06-04)
  * -------------------------------------------------
  * Creates a cloud‑free, per‑pixel **median NDVI**
  * mosaic for a user‑defined ROI & date range.
  * -------------------------------------------------
- *  – Scene‑level filter:  CLOUDY_PIXEL_PERCENTAGE < 10 %
- *  – Pixel‑level mask  :  SCL classes 4‑7  AND  s2cloudless < 40 %
- *  – Composite         :  per‑pixel median NDVI
+ *  – Scene-level filter :  CLOUDY_PIXEL_PERCENTAGE < 10 %
+ *  – Pixel-level mask   :  SCL classes 4-7  AND  s2cloudless < 40 %
+ *  – Composite          :  per-pixel median NDVI
  *
- *  Palette – nine‑step perceptually‑uniform ramp
+ *  Palette – nine-step perceptually‑uniform ramp
  *      -0.2  →  bare soil / water   →  #8c510a
  *       0.0  →  sparse veg          →  #d9ef8b
  *       0.3  →  moderate veg        →  #91cf60
@@ -16,22 +16,19 @@
  *
  *  CRS notes
  *  ------------------------------------------------
- *  If you don’t specify a CRS, GEE will export in
- *  the native projection of the first image (EPSG:4326
- *  for Sentinel‑2 SR).  Alternatively, this script
- *  derives the correct UTM zone for the ROI centroid
- *  and exports in that metre‑based CRS (EPSG 326xx / 327xx).
- *
- *  ⚠️  Change the `useDynamicUTM` flag as desired.
+ *  · DEFAULT export CRS  = EPSG:4326 (WGS‑84 lat/lon, universal).
+ *  · For local analyses in metres, set `userCRS` below to your UTM zone.
+ *  · Set `userCRS = null` to let the script auto‑suggest a UTM code
+ *    based on the ROI centroid (printed in the console).
+ *  · If auto‑detect still fails, the export remains in EPSG:4326.
  ***************************************************/
 
 /************* CONFIG (edit here) *******************/
 var roi            = /* your geometry */ geometry;
 var start          = '2024-01-01';
 var end            = '2024-12-31';
-var maxCloudPerc   = 10;   // % cloud at scene level
-var probThreshold  = 40;   // % s2cloudless probability
-var useDynamicUTM  = true; // false → export in EPSG:4326
+var maxCloudPerc   = 10;  // scene‑level cloud %
+var probThreshold  = 40;  // s2cloudless pixel prob %
 
 // 9‑step NDVI palette (hex) — soil → canopy
 var ndviPalette = [
@@ -47,6 +44,14 @@ var ndviPalette = [
   '#006837', //  0.70
   '#004529'  //  0.85
 ];
+
+/* CRS override
+ * -------------------------------------------------
+ * Put your EPSG here if you KNOW it,
+ * e.g.  'EPSG:32633'  for UTM 33 N.
+ * Leave as null to let the script suggest a UTM code.
+ */
+var userCRS = null;   // ← default is null (keeps EPSG:4326) – set to your EPSG if needed
 
 /************* COLLECTIONS **************************/
 var s2 = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
@@ -73,29 +78,19 @@ var joined = ee.ImageCollection(
 /************* MASK & NDVI **************************/
 var s2mask = function (img) {
   var scl = img.select('SCL');
-  var maskSCL = scl.eq(4) // vegetation
-                 .or(scl.eq(5)) // not‑vegetation (forest)
-                 .or(scl.eq(6)) // bare soil
-                 .or(scl.eq(7)); // water
-
+  var goodSCL = scl.eq(4).or(scl.eq(5)).or(scl.eq(6)).or(scl.eq(7));
   var prob = ee.Image(img.get('cloud_img')).select('probability');
-  var maskProb = prob.lt(probThreshold);
-
-  return img.updateMask(maskSCL).updateMask(maskProb);
+  return img.updateMask(goodSCL).updateMask(prob.lt(probThreshold));
 };
 
 var addNDVI = function (img) {
   return img.addBands(
-    img.normalizedDifference(['B8', 'B4']).rename('NDVI')
+    img.normalizedDifference(['B8','B4']).rename('NDVI')
   );
 };
 
-var ndviCol = joined
-                .map(s2mask)
-                .map(addNDVI)
-                .select('NDVI');
-
-print('Valid scenes: ', ndviCol.size());
+var ndviCol = joined.map(s2mask).map(addNDVI).select('NDVI');
+print('Valid scenes:', ndviCol.size());
 
 var ndviMed = ndviCol.median().clip(roi);
 
@@ -103,32 +98,42 @@ var ndviMed = ndviCol.median().clip(roi);
 Map.centerObject(roi, 11);
 Map.addLayer(
   ndviMed,
-  { min: -0.2, max: 0.8, palette: ndviPalette },
-  'NDVI ' + start + ' to ' + end + ' (median)'
+  {min:-0.2, max:0.8, palette:ndviPalette},
+  'NDVI '+start+' to '+end+' (median)'
 );
 
-/************* EXPORT *******************************/
-// ----- choose CRS -----
-var exportCRS;
-if (useDynamicUTM) {
-  var lon = ee.Number(roi.centroid().coordinates().get(0));
-  var lat = ee.Number(roi.centroid().coordinates().get(1));
-  var utmZone = lon.add(180).divide(6).floor().add(1);
-  var epsg = lat.lt(0) ? ee.Number(327).multiply(100).add(utmZone)  // southern hemi
-                       : ee.Number(326).multiply(100).add(utmZone); // northern hemi
-  exportCRS = 'EPSG:' + epsg.format();
-  print('Export CRS (dynamic UTM):', exportCRS);
-} else {
-  exportCRS = 'EPSG:4326'; // lat/long ‑ global
-  print('Export CRS: EPSG:4326 (lat/lon)');
-}
+/************* CRS SUGGESTION & EXPORT **************/
+var exportCRS = 'EPSG:4326'; // default fallback & web‑friendly
 
-Export.image.toDrive({
-  image: ndviMed,
-  description: 'NDVI_median_' + start.substring(0, 4),
-  fileNamePrefix: 'NDVI_median_' + start + '_' + end,
-  region: roi,
-  scale: 10,
-  crs: exportCRS,
-  maxPixels: 1e13
+var lon  = ee.Number(roi.centroid().coordinates().get(0));
+var lat  = ee.Number(roi.centroid().coordinates().get(1));
+var zone = lon.add(180).divide(6).floor().add(1);
+var epsgAuto = lat.lt(0)
+      ? ee.Number(327).multiply(100).add(zone)   // UTM south
+      : ee.Number(326).multiply(100).add(zone);  // UTM north
+
+epsgAuto.evaluate(function(autoNum){
+  var autoCRS = autoNum ? 'EPSG:'+autoNum : null;
+
+  if (userCRS && userCRS.length > 5) {
+    exportCRS = userCRS;
+    print('⚙️  Using USER‑defined CRS → '+exportCRS);
+  } else if (autoCRS) {
+    exportCRS = autoCRS;
+    print('💡 Suggested CRS: '+autoCRS+
+          '  (copy into `userCRS` for future runs)');
+  } else {
+    exportCRS = 'EPSG:4326';
+    print('⚠️  CRS could not be determined — staying in EPSG:4326 (lat/lon)');
+  }
+
+  Export.image.toDrive({
+    image: ndviMed,
+    description: 'NDVI_median_'+start.substring(0,4),
+    fileNamePrefix: 'NDVI_median_'+start+'_'+end,
+    region: roi,
+    scale: 10,
+    crs: exportCRS,
+    maxPixels: 1e13
+  });
 });
