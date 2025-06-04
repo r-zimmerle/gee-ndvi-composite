@@ -1,0 +1,26 @@
+cff-version: 1.0.0
+message: "If you use this workflow or the code, please cite it!"
+title: "Sentinel-2 NDVI median composite with cloud masking"
+version: "1.0.0"
+type: software
+authors:
+  - family-names: "Zimmerle dos Santos Rodrigues"
+    given-names: "Rodrigo"
+    orcid: "https://orcid.org/0000-0003-2811-829X"
+
+repository-code: "https://github.com/r-zimmerle/gee-ndvi-composite"
+license: MIT          # code content/
+doi: 10.5281/zenodo.XXXXXXX   # <– change after DOI is assigned
+url: "https://zenodo.org/record/XXXXXXX"   # <– change after DOI is assigned
+date-released: 2025-06-03
+
+abstract: >
+  Google Earth Engine script that generates cloud-free, per-pixel median NDVI
+  mosaics from Sentinel-2 Level-2A imagery using Scene Classification Layer
+  and s2cloudless probability masks (after Wright et al. 2024). The repository
+  includes full methodology and an example figure for immediate reproducibility.
+
+notes: >
+  Documentation and figures (docs/, docs/media/) are licensed under
+  Creative Commons Attribution 4.0 International (CC BY 4.0);
+  see file LICENSE-docs.md.
