@@ -86,4 +86,7 @@ See [`docs/Methodology.md`](docs/Methodology.md) for the scientific rationale (d
 
 ---
 
-MIT License — free to use, modify, & cite.
+## License
+
+- **Source code**: [MIT License](LICENSE)
+- **Documentation & media**: [CC BY 4.0](docs/LICENSE-docs.md)
