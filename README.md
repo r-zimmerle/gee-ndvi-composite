@@ -20,7 +20,7 @@
 > **Ideal for**: vegetation monitoring, baseline layers for ML, classroom demos—anyone who wants a trustworthy NDVI without delving into cloud‑mask minutiae.
 
 <p align="center">
-  <img src="docs/media/nvdi-model.png" width="50%" alt="Annual median NDVI (2024) example">
+  <img src="docs/media/nvdi-model.png" width="75%" alt="Annual median NDVI (2024) example">
   <br>
   <em>Figure 1 – Annual median NDVI (2024) for a sample region of interest (ROI), generated using the default script settings.</em>
 </p>
@@ -69,7 +69,7 @@ See [`docs/Methodology.md`](docs/Methodology.md) for the scientific rationale (d
 
 ## How to cite
 
-> Zimmerle, R. (2025). *Sentinel‑2 NDVI median composite with cloud masking* (Version 1.0.0) \[Computer software]. Zenodo. [https://doi.org/10.5281/zenodo.15588638](https://doi.org/10.5281/zenodo.15588638)
+> Zimmerle, R. (2025). Sentinel-2 NDVI median composite with cloud masking (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.15588638
 >
 > Please cite if this workflow supports your research—citations help justify continued maintenance.
 
