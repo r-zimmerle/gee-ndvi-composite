@@ -1,5 +1,7 @@
 # Sentinel‑2 NDVI **Median** Composite (GEE)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15588638.svg)](https://doi.org/10.5281/zenodo.15588638)
+
 *Clean, reproducible NDVI mosaics in **one click**—with peer‑reviewed cloud masking and per‑pixel median compositing baked‑in.*
 
 ---
@@ -67,7 +69,7 @@ See [`docs/Methodology.md`](docs/Methodology.md) for the scientific rationale (d
 
 ## How to cite
 
-> Zimmerle, R. (2025). *Sentinel‑2 NDVI median composite with cloud masking* (Version 1.0.0) \[Computer software]. Zenodo. [https://doi.org/10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.XXXXXXX)
+> Zimmerle, R. (2025). *Sentinel‑2 NDVI median composite with cloud masking* (Version 1.0.0) \[Computer software]. Zenodo. [https://doi.org/10.5281/zenodo.15588638](https://doi.org/10.5281/zenodo.15588638)
 >
 > Please cite if this workflow supports your research—citations help justify continued maintenance.
 

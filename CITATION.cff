@@ -10,8 +10,8 @@ authors:
 
 repository-code: "https://github.com/r-zimmerle/gee-ndvi-composite"
 license: MIT          # code content/
-doi: 10.5281/zenodo.XXXXXXX   # <– change after DOI is assigned
-url: "https://zenodo.org/record/XXXXXXX"   # <– change after DOI is assigned
+doi: 10.5281/zenodo.15588638   # <– change after DOI is assigned
+url: "https://doi.org/10.5281/zenodo.15588638"   # <– change after DOI is assigned
 date-released: 2025-06-03
 
 abstract: >

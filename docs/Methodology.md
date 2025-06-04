@@ -75,4 +75,4 @@ This workflow has been validated in open, version-controlled repositories and is
 ---
 
 > **Citation of this workflow**
-> Zimmerle, R. (2025). *Sentinel‑2 NDVI compositing script and methodology* (v1.0) \[Computer software & technical note]. Zenodo. [https://doi.org/10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.XXXXXXX)
+> Zimmerle, R. (2025). *Sentinel‑2 NDVI compositing script and methodology* (v1.0) \[Computer software & technical note]. Zenodo. [https://doi.org/10.5281/zenodo.15588638](https://doi.org/10.5281/zenodo.15588638)
