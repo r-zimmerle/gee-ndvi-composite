@@ -1,26 +1,116 @@
-cff-version: 1.0.1
-message: "If you use this workflow or the code, please cite it!"
+cff-version: 1.2.0
+message: "If you use this workflow or the code, please cite it using the concept DOI below."
 title: "Sentinel-2 NDVI median composite with cloud masking"
-version: "1.0.1"                          # <-- Atualize aqui para o novo release
+version: "1.1.0" # Specific version of this release
 type: software
 authors:
   - family-names: "Zimmerle"
     given-names: "R."
     orcid: "https://orcid.org/0000-0003-2811-829X"
-
 repository-code: "https://github.com/r-zimmerle/gee-ndvi-composite"
 license: MIT
-doi: 10.5281/zenodo.15589146             # <-- Novo DOI da v1.0.1
-url: "https://doi.org/10.5281/zenodo.15589146"   # <-- Novo link Zenodo v1.0.1
-date-released: 2025-06-04                # <-- Atualize para a data de release
-
+# The DOI below is the concept DOI representing all versions.
+# It will always resolve to the latest one.
+doi: "10.5281/zenodo.15588637"
+url: "https://doi.org/10.5281/zenodo.15588637"
+date-released: 2025-06-04 # Release date of this specific version (v1.1.1)
 abstract: >
-  Google Earth Engine script that generates cloud-free, per-pixel median NDVI
-  mosaics from Sentinel-2 Level-2A imagery using Scene Classification Layer
-  and s2cloudless probability masks (after Wright et al. 2024). The repository
-  includes full methodology and an example figure for immediate reproducibility.
-
+  Google Earth Engine (GEE) script that generates robust, per-pixel median NDVI
+  composites from Sentinel-2 Level-2A imagery. Cloud masking combines the Sentinel-2
+  Scene Classification Layer (SCL) with the s2cloudless cloud probability product
+  [Zupanc, 2017]. The s2cloudless algorithm is a widely used, GEE-accessible method
+  for cloud detection, frequently included as a benchmark in studies evaluating
+  more advanced algorithms [e.g., Wright et al., 2024]. The repository includes
+  a detailed methodology (Methodology.md) and an example figure for reproducibility.
+keywords:
+  - "NDVI"
+  - "Sentinel-2"
+  - "Google Earth Engine"
+  - "GEE"
+  - "cloud masking"
+  - "s2cloudless"
+  - "remote sensing"
+  - "median composite"
+  - "geospatial"
+  - "Earth observation"
 notes: >
   Documentation and figures (docs/, docs/media/) are licensed under
   Creative Commons Attribution 4.0 International (CC BY 4.0);
-  see file LICENSE-docs.md.
+  see file LICENSE-CC-BY.md (or LICENSE-docs.md if that's the name you used).
+references:
+  - type: article
+    authors:
+      - family-names: "Wright"
+        given-names: "N."
+      - family-names: "Duncan"
+        given-names: "J. M. A."
+      - family-names: "Callow"
+        given-names: "J. N."
+      - family-names: "Thompson"
+        given-names: "S. E."
+      - family-names: "George"
+        given-names: "R. J."
+    title: "CloudS2Mask: A novel deep-learning approach for improved cloud and cloud-shadow masking in Sentinel-2 imagery"
+    journal: "Remote Sensing of Environment"
+    volume: 306
+    year: 2024
+    doi: "10.1016/j.rse.2024.114122"
+  - type: report # Or 'manual' or 'software-documentation' depending on preference
+    authors:
+      - name: "European Space Agency"
+    title: "Sentinel-2 user handbook"
+    year: 2015
+    institution:
+      name: "ESA"
+    version: "Issue 1, Rev. 2"
+    url: "https://sentinels.copernicus.eu/documents/247904/685211/Sentinel-2_User_Handbook"
+    date-accessed: 2025-06-04
+  - type: article
+    authors:
+      - family-names: "Gorelick"
+        given-names: "N."
+      - family-names: "Hancher"
+        given-names: "M."
+      - family-names: "Dixon"
+        given-names: "M."
+      - family-names: "Ilyushchenko"
+        given-names: "S."
+      - family-names: "Thau"
+        given-names: "D."
+      - family-names: "Moore"
+        given-names: "R."
+    title: "Google Earth Engine: Planetary-scale geospatial analysis for everyone"
+    journal: "Remote Sensing of Environment"
+    volume: 202
+    pages: "18-27"
+    year: 2017
+    doi: "10.1016/j.rse.2017.06.031"
+  - type: conference-paper # Or 'report' as it's a NASA SP
+    authors:
+      - family-names: "Rouse"
+        given-names: "J. W."
+      - family-names: "Haas"
+        given-names: "R. H."
+      - family-names: "Schell"
+        given-names: "J. A."
+      - family-names: "Deering"
+        given-names: "D. W."
+    title: "Monitoring vegetation systems in the Great Plains with ERTS"
+    collection-title: "Proceedings of the 3rd ERTS-1 Symposium" # Or booktitle
+    volume: 1 # Or part-of: "Section A"
+    pages: "309-317"
+    year: 1974
+    publisher:
+      name: "NASA" # Or institution: name: "NASA Goddard Space Flight Center"
+    url: "https://ntrs.nasa.gov/citations/19740022614"
+    date-accessed: 2025-06-04
+  - type: webpage # Or 'blog'
+    authors:
+      - family-names: "Zupanc"
+        given-names: "A."
+    title: "Improving Cloud Detection with Machine Learning"
+    year: 2017
+    month: 12 # CFF uses numeric month
+    day: 19   # CFF uses numeric day
+    url: "https://medium.com/sentinel-hub/improving-cloud-detection-with-machinelearning-c09dc5d7cf13"
+    date-accessed: 2025-06-04
