@@ -11,7 +11,7 @@
 |✔|Benefit|How it’s guaranteed|
 |---|---|---|
 |⚡ **Ready‑to‑run**|Copy the script into the [GEE Code Editor](https://code.earthengine.google.com) and hit **Run**.|Self‑contained JS file `code/gee_ndvi_annual_median.js`.|
-|🛰 **Cloud‑robust NDVI**|Removes thick/thin cloud _and_ shadows before index calc.|Scene filter (<10% cloud); pixel mask combines SCL (classes 4‑7) & `s2cloudless` (<40%) [Zupanc, 2017]. This GEE-native approach offers good accuracy and accessibility, with `s2cloudless` being benchmarked in studies like Wright _et al._ (2024).|
+|🛰 **Cloud‑robust NDVI**|Removes thick/thin cloud _and_ shadows before index calc.|Scene filter (<25% cloud); pixel mask combines SCL (classes 4‑7) & `s2cloudless` (<40%) [Zupanc, 2017]. This GEE-native approach offers good accuracy and accessibility, with `s2cloudless` being benchmarked in studies like Wright _et al._ (2024).|
 |📊 **Per‑pixel median**|Dampens sensor noise & residual haze.|Median reducer over time stack (common good‑practice).|
 |🎨 **Consistent palette**|Nine‑step, perceptually‑uniform ramp (brown → red → greens).|Matched to common NDVI legends; colour list hard‑coded in the script.|
 |🔁 **Reproducible workflow**|DOI‑frozen release on Zenodo; cite & rerun next season.|Versioned GitHub → Zenodo archiving.|
@@ -57,7 +57,7 @@ If you need **metric-accurate area or distance calculations**, open
 
 This script generates cloud-free Sentinel-2 NDVI median composites by:
 
-1. **Scene filtering:** Pre-selects Sentinel-2 Level-2A images with less than 10% cloud cover (`CLOUDY_PIXEL_PERCENTAGE < 10%`) for the specified period and ROI.
+1. **Scene filtering:** Pre-selects Sentinel-2 Level-2A images with less than 25% cloud cover (`CLOUDY_PIXEL_PERCENTAGE < 25%`) for the specified period and ROI.
     
 2. **Pixel masking:** For each selected image, it applies a robust pixel-level mask by:
     

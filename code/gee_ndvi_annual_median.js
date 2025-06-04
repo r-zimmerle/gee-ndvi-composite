@@ -27,7 +27,7 @@
 var roi            = /* your geometry */ geometry;
 var start          = '2024-01-01';
 var end            = '2024-12-31';
-var maxCloudPerc   = 10;  // scene‑level cloud %
+var maxCloudPerc   = 25;  // scene‑level cloud %
 var probThreshold  = 40;  // s2cloudless pixel prob %
 
 // 9‑step NDVI palette (hex) — soil → canopy

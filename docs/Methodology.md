@@ -26,9 +26,9 @@ All collections are accessed directly within the Earth Engine cloud—no local d
 
 The specific parameters used in this script are chosen to balance data quality, processing efficiency, and general applicability.
 
-* **Scene-level filter (`CLOUDY_PIXEL_PERCENTAGE < 10%`):**
+* **Scene-level filter (`CLOUDY_PIXEL_PERCENTAGE < 25%`):**
     * **Purpose:** To pre-filter the Sentinel-2 image collection and exclude scenes that are heavily contaminated by clouds.
-    * **Justification:** A threshold of 10% is a common heuristic in remote sensing workflows. It aims to strike a balance between maximizing the number of available scenes for the composite and minimizing the processing of images that are unlikely to yield a significant number of valid (cloud-free) pixels. This reduces computational load and generally improves the quality of the input data for the subsequent pixel-level masking and temporal aggregation.
+    * **Justification:** A threshold of 25% is a common heuristic in remote sensing workflows. It aims to strike a balance between maximizing the number of available scenes for the composite and minimizing the processing of images that are unlikely to yield a significant number of valid (cloud-free) pixels. This reduces computational load and generally improves the quality of the input data for the subsequent pixel-level masking and temporal aggregation.
 
 * **Pixel-level mask (SCL classes 4–7 AND `s2cloudless` probability `< 40%`):**
     * **Purpose:** To identify and mask out residual cloud and cloud shadow pixels at a finer scale, after the initial scene-level filtering.
@@ -45,7 +45,7 @@ The table below summarises the main processing steps:
 
 | Step                   | Purpose                                         | Filter / operation                                                                             |
 | ---------------------- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| **Scene‑level filter** | Remove acquisitions dominated by cloud          | `CLOUDY_PIXEL_PERCENTAGE < 10` %                                                               |
+| **Scene‑level filter** | Remove acquisitions dominated by cloud          | `CLOUDY_PIXEL_PERCENTAGE < 25` %                                                               |
 | **Pixel mask**         | Eliminate residual **cloud & shadow** artefacts | keep Scene Classification Layer (SCL) classes **4–7** *and* `s2cloudless` probability `< 40` % |
 | **Per‑image NDVI**     | Translate reflectance → vegetation signal       | `NDVI = (B8 − B4) / (B8 + B4)`                                                                 |
 | **Temporal reduce**    | Suppress outliers, view‑angle & haze noise      | **Median** of NDVI stack, pixel‑wise                                                           |
