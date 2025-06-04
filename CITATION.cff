@@ -1,7 +1,7 @@
-cff-version: 1.0.0
+cff-version: 1.0.1
 message: "If you use this workflow or the code, please cite it!"
 title: "Sentinel-2 NDVI median composite with cloud masking"
-version: "1.0.0"
+version: "1.0.1"                          # <-- Atualize aqui para o novo release
 type: software
 authors:
   - family-names: "Zimmerle"
@@ -10,9 +10,9 @@ authors:
 
 repository-code: "https://github.com/r-zimmerle/gee-ndvi-composite"
 license: MIT
-doi: 10.5281/zenodo.15588638
-url: "https://doi.org/10.5281/zenodo.15588638"
-date-released: 2025-06-03
+doi: 10.5281/zenodo.15589146             # <-- Novo DOI da v1.0.1
+url: "https://doi.org/10.5281/zenodo.15589146"   # <-- Novo link Zenodo v1.0.1
+date-released: 2025-06-04                # <-- Atualize para a data de release
 
 abstract: >
   Google Earth Engine script that generates cloud-free, per-pixel median NDVI
